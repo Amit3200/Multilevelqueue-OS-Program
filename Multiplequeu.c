@@ -1,195 +1,87 @@
 #include<stdio.h>
-
-#define N 10
-
-typedef struct
-
-{
-
-int process_id, arrival_time, burst_time, priority;
-
-int q, ready;
-
-}process_structure;
-
-int Queue(int t1)
-
-{
-
-if (t1 == 0 || t1 == 1 || t1 == 2 || t1 == 3)
-
-{
-
-return 1;
-
-}
-
-else
-
-{
-
-return 2;
-
-}
-
-}
-
 int main()
-
 {
-
-int limit, count, temp_process, time, j, y;
-
-process_structure temp;
-
-printf("Enter Total Number of Processes:\t");
-
-scanf("%d", &limit);
-
-process_structure process[limit];
-
-for(count = 0; count < limit; count++)
-
-{
-
-printf("\nProcess ID:\t");
-
-scanf("%d", &process[count].process_id);
-
-printf("Arrival Time:\t");
-
-scanf("%d", &process[count].arrival_time);
-
-printf("Burst Time:\t");
-
-scanf("%d", &process[count].burst_time);
-
-printf("Process Priority:\t");
-
-scanf("%d", &process[count].priority);
-
-temp_process = process[count].priority;
-
-process[count].q = Queue(temp_process);
-
-process[count].ready = 0;
-
-}
-
-time = process[0].burst_time;
-
-for(y = 0; y < limit; y++)
-
-{
-
-for(count = y; count < limit; count++)
-
-{
-
-if(process[count].arrival_time < time)
-
-{
-
-process[count].ready = 1;
-
-}
-
-}
-
-for(count = y; count < limit - 1; count++)
-
-{
-
-for(j = count + 1; j < limit; j++)
-
-{
-
-if(process[count].ready == 1 && process[j].ready == 1)
-
-{
-
-if(process[count].q == 2 && process[j].q == 1)
-
-{
-
-temp = process[count];
-
-process[count] = process[j];
-
-process[j] = temp;
-
-}
-
-}
-
-}
-
-}
-
-for(count = y; count < limit - 1; count++)
-
-{
-
-for(j = count + 1; j < limit; j++)
-
-{
-
-if(process[count].ready == 1 && process[j].ready == 1)
-
-{
-
-if(process[count].q == 1 && process[j].q == 1)
-
-{
-
-if(process[count].burst_time > process[j].burst_time)
-
-{
-
-temp = process[count];
-
-process[count] = process[j];
-
-process[j] = temp;
-
-}
-
-else
-
-{
-
-break;
-
-}
-
-}
-
-}
-
-}
-
-}
-
-printf("\nProcess[%d]:\tTime:\t%d To %d\n", process[y].process_id, time, time + process[y].burst_time);
-
-time = time + process[y].burst_time;
-
-for(count = y; count < limit; count++)
-
-{
-
-if(process[count].ready == 1)
-
-{
-
-process[count].ready = 0;
-
-}
-
-}
-
-}
-
-return 0;
-
+	int n,p[200],bt1[200],n1,n2,bt2[200],bt3[200],i,tq=4,j,k=0,counter=0,comp[600]={0},time[600]={0},c,rr[200],l,yu=0,pid=0;
+	int com[200];
+	printf("\n>Enter the details of first queue(highest priority)");
+	printf("\n Enter the number of process in first queue : ");
+	scanf("%d",&n);
+	for(i=0;i<n;i++)
+	{
+		p[i]=i;
+		printf("\n Enter the burst time of process %d : ",i);
+		scanf("%d",&bt1[i]);
+	}
+	printf("\n>Enter the details of second queue(medium priority)");
+	printf("\n Enter the number of process in second queue : ");
+	scanf("%d",&n1);
+	for(i=0;i<n1;i++)
+	{
+		p[i]=i;
+		printf("\n Enter the burst time of process %d : ",i);
+		scanf("%d",&bt2[i]);
+	}
+	printf("\n>Enter the details of third queue(third priority)");
+	printf("\n Enter the number of process in third queue : ");
+	scanf("%d",&n2);
+	for(i=0;i<n2;i++)
+	{
+		p[i]=i;
+		printf("\n Enter the burst time of process %d : ",i);
+		scanf("%d",&bt3[i]);
+	}
+	l=n+n1+n2;
+	for(j=0;j<2*n;j++)
+	{
+		//if(counter==0) // checking for first process;
+		{
+			//running for first queue so full time quanta will run
+			//applying the round robin algo here
+			counter++;
+			bt1[j]=bt1[j]-tq;
+			if(bt1[j]<=0)
+			{
+				bt1[j]=0;
+				rr[j]=1;//1 says process done and 0 says false
+				com[j]=pid;
+				pid++;
+			}
+			else
+			{
+				k++;//process not completed
+				rr[j]=0;
+				bt1[j+k]=bt1[j];
+			}
+				comp[0]=0;
+				comp[j]+=tq;
+				time[j]+=tq;
+		}
+		
+		
+		
+		
+		for(int h=0;h<n;h++)
+		{
+			if(rr[h]==1)
+			{
+			yu++;	
+			}
+		}
+		if(yu==n)
+		{
+		break;
+		}	
+		else
+		{
+			yu=0;
+		}
+	}
+	for(j=0;j<2*n;j++)
+	{
+		printf("%d ",rr[j]);
+	}
+		for(j=0;j<2*n;j++)
+	{
+		printf("%d ",com[j]);
+	}
 }
