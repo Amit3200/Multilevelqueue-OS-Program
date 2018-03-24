@@ -1,7 +1,83 @@
 #include<stdio.h>
+void round(int bt1[],int tq,int n,int wt[])
+{
+	int i,cp[200];
+	int pid=0;
+	int k[200],o=0;
+	bool complete=true;
+	for(i=0;i<n;i++)
+	{
+		cp[i]=bt1[i];
+	}
+	int t=0;
+	while(true)
+	{
+	    complete=true;
+		for(i=0;i<n;i++)
+		{
+			if(cp[i]>0)
+			{
+				complete=false;
+			}
+			if(cp[i]>tq)
+			{
+				t+=tq;
+				cp[i]-=tq;
+			}
+			else
+			{
+				t=t+cp[i];
+				wt[i]=t-bt1[i];
+				cp[i]=0;
+				if(cp[i]==0)
+				{
+				k[o]=i;
+				o++;
+				}
+			}
+		}
+			if(complete==true)
+				break;
+	}
+	printf("\n");
+	for(i=0;i<o;i++)
+	{
+		printf("%d ",wt[i]);
+	}
+//	printf("\n");
+//	for(i=0;i<n;i++)
+//	{
+//		printf("%d ",k[i]);
+//	}
+
+//completing the order of time 
+	int k1,j;
+	for (i = 0; i < o; i++) 
+	{
+      for (j = i + 1; j < o;) 
+	  {
+         if (k[j] == k[i]) 
+		 {
+            for (k1 = j; k1 < o; k1++) 
+			{
+               k[k1] = k[k1 + 1];
+            }
+            o--;
+         } 
+		 else
+            j++;
+      }
+    }
+   	printf("\n");
+	for(i=0;i<o;i++)
+	{
+		printf("%d ",k[i]);
+	}
+
+}
 int main()
 {
-	int n,p[200],bt1[200],n1,n2,bt2[200],bt3[200],i,tq=4,j,k=0,counter=0,comp[600]={0},time[600]={0},c,rr[200],l,yu=0,pid=0;
+	int i,j,n,n1,n2,p[200],bt1[200],bt2[200],bt3[200],tq=4,wt[200];
 	int com[200];
 	printf("\n>Enter the details of first queue(highest priority)");
 	printf("\n Enter the number of process in first queue : ");
@@ -30,58 +106,5 @@ int main()
 		printf("\n Enter the burst time of process %d : ",i);
 		scanf("%d",&bt3[i]);
 	}
-	l=n+n1+n2;
-	for(j=0;j<2*n;j++)
-	{
-		//if(counter==0) // checking for first process;
-		{
-			//running for first queue so full time quanta will run
-			//applying the round robin algo here
-			counter++;
-			bt1[j]=bt1[j]-tq;
-			if(bt1[j]<=0)
-			{
-				bt1[j]=0;
-				rr[j]=1;//1 says process done and 0 says false
-				com[j]=pid;
-				pid++;
-			}
-			else
-			{
-				k++;//process not completed
-				rr[j]=0;
-				bt1[j+k]=bt1[j];
-			}
-				comp[0]=0;
-				comp[j]+=tq;
-				time[j]+=tq;
-		}
-		
-		
-		
-		
-		for(int h=0;h<n;h++)
-		{
-			if(rr[h]==1)
-			{
-			yu++;	
-			}
-		}
-		if(yu==n)
-		{
-		break;
-		}	
-		else
-		{
-			yu=0;
-		}
-	}
-	for(j=0;j<2*n;j++)
-	{
-		printf("%d ",rr[j]);
-	}
-		for(j=0;j<2*n;j++)
-	{
-		printf("%d ",com[j]);
-	}
+			round(bt1,tq,n,wt);
 }
