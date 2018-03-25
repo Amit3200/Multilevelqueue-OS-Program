@@ -40,17 +40,17 @@ void round(int bt1[],int tq,int n,int wt[])
 				break;
 	}
 	printf("\n");
-	for(i=0;i<o;i++)
-	{
-		printf("%d ",wt[i]);
-	}
+//	for(i=0;i<o;i++)
+//	{
+//		printf("%d ",wt[i]);
+//	}
 //	printf("\n");
 //	for(i=0;i<n;i++)
 //	{
 //		printf("%d ",k[i]);
 //	}
 
-//completing the order of time 
+//completing the order of time  //Removing duplicates
 	int k1,j;
 	for (i = 0; i < o; i++) 
 	{
@@ -69,15 +69,28 @@ void round(int bt1[],int tq,int n,int wt[])
       }
     }
    	printf("\n");
+   	printf("Round Robin Schedulling : ");
 	for(i=0;i<o;i++)
 	{
 		printf("%d ",k[i]);
 	}
 
 }
+void firstcome(int bt2[],int wt[],int n)
+{
+	int i;
+    wt[0] = 0;
+    for (i = 1; i < n ; i++ )
+        wt[i] =bt2[i-1] + wt[i-1];
+    printf("\n First Come First Serve : ");
+    for(i=0;i<n;i++)
+    {
+    	printf("%d ",i);
+	}
+}
 int main()
 {
-	int i,j,n,n1,n2,p[200],bt1[200],bt2[200],bt3[200],tq=4,wt[200];
+	int i,j,n,n1,n2,p[200],bt1[200],bt2[200],bt3[200],tq=4,wt[200],wt1[200];
 	int com[200];
 	printf("\n>Enter the details of first queue(highest priority)");
 	printf("\n Enter the number of process in first queue : ");
@@ -107,4 +120,5 @@ int main()
 		scanf("%d",&bt3[i]);
 	}
 			round(bt1,tq,n,wt);
+			firstcome(bt3,wt,n2);
 }
