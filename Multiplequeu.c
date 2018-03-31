@@ -69,12 +69,45 @@ void round(int bt1[],int tq,int n,int wt[])
       }
     }
    	printf("\n");
-   	printf("Round Robin Schedulling : ");
+   	printf(" Round Robin Scheduling : ");
 	for(i=0;i<o;i++)
 	{
 		printf("%d ",k[i]);
 	}
 
+}
+
+void prior(int bt[],int pr[], int n,int p[])
+{
+	int i,j,temp,pos;
+	    for(i=0;i<n;i++)
+    {
+        pos=i;
+        for(j=i+1;j<n;j++)
+        {
+            if(pr[j]<pr[pos])
+                pos=j;
+        }
+ 
+        temp=pr[i];
+        pr[i]=pr[pos];
+        pr[pos]=temp;
+ 
+        temp=bt[i];
+        bt[i]=bt[pos];
+        bt[pos]=temp;
+ 
+        temp=p[i];
+        p[i]=p[pos];
+        p[pos]=temp;
+    }
+	for(i=0;i<n;i++)
+	{
+		printf("%d \n",bt[i]);
+	}
+	printf("\n Priority Scheduling gives : ");
+	    for (i = 0 ; i <  n; i++)
+        printf("%d ",p[i]);
 }
 void firstcome(int bt2[],int wt[],int n)
 {
@@ -90,7 +123,7 @@ void firstcome(int bt2[],int wt[],int n)
 }
 int main()
 {
-	int i,j,n,n1,n2,p[200],bt1[200],bt2[200],bt3[200],tq=4,wt[200],wt1[200];
+	int i,j,n,n1,n2,p[200],bt1[200],bt2[200],bt3[200],tq=4,wt[200],wt1[200],pr[200];
 	int com[200];
 	printf("\n>Enter the details of first queue(highest priority)");
 	printf("\n Enter the number of process in first queue : ");
@@ -109,6 +142,8 @@ int main()
 		p[i]=i;
 		printf("\n Enter the burst time of process %d : ",i);
 		scanf("%d",&bt2[i]);
+		printf("\n Enter the priority of process %d : ",i);
+		scanf("%d",&pr[i]);
 	}
 	printf("\n>Enter the details of third queue(third priority)");
 	printf("\n Enter the number of process in third queue : ");
@@ -120,5 +155,6 @@ int main()
 		scanf("%d",&bt3[i]);
 	}
 			round(bt1,tq,n,wt);
+			prior(bt2,pr,n1,p);
 			firstcome(bt3,wt,n2);
 }
