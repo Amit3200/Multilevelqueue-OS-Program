@@ -1,12 +1,14 @@
 #include<stdio.h>
 using namespace std; 
-void *raround(int n,int bt[], int wt[], int tat[])
+int tq=4;
+struct element
 {
-    for (int i = 0; i < n ; i++)
-        tat[i] = bt[i] + wt[i];
-}
- 
-void round(int bt1[],int tq,int n,int wt[])
+	int n,n1,n2;
+	int bt[200],bt1[200],bt2[200],bt3[200],pr[200];
+	int p[200],p1[200],p2[200];
+	int wt[200];	
+}s;
+void round(struct element s)
 {
 	int i,cp[200];
 	int pid=0;
@@ -16,19 +18,19 @@ void round(int bt1[],int tq,int n,int wt[])
 	int tat[200];
 	int total_wt=0;
 	int total_tat=0;
-	for(i=0;i<n;i++)
+	for(i=0;i<s.n;i++)
 	{
-		cp[i]=bt1[i];
+		cp[i]=s.bt1[i];
 	}
-		for(i=0;i<n;i++)
+		for(i=0;i<s.n;i++)
 	{
-		bt2[i]=bt1[i];
+		bt2[i]=s.bt1[i];
 	}
 	int t=0;
 	while(true)
 	{
 	    complete=true;
-		for(i=0;i<n;i++)
+		for(i=0;i<s.n;i++)
 		{
 			if(cp[i]>0)
 			{
@@ -41,7 +43,7 @@ void round(int bt1[],int tq,int n,int wt[])
 			else
 			{
 				t=t+cp[i];
-				wt[i]=t-bt2[i];
+				s.wt[i]=t-bt2[i];
 				cp[i]=0;
 			if(cp[i]==0)
 			{
@@ -73,100 +75,99 @@ void round(int bt1[],int tq,int n,int wt[])
             j++;
       }
     }
-    raround(n,bt1,wt,tat);
+  //  raround(n,bt1,wt,tat);
+      for (int i = 0; i < s.n ; i++)
+        tat[i] = s.bt1[i] + s.wt[i];
    	printf("\n");
    	printf(" Round Robin Scheduling : ");
 	for(i=0;i<o;i++)
 	{
 		printf("%d ",k[i]);
 	}
-	 for (int i=0; i<n; i++)
+	 for (int i=0; i<s.n; i++)
 	 {
-	 	total_wt = total_wt + wt[i];
-       	total_tat = total_tat + tat[i];
-        printf("\n Details : %d\t%d\t%d\t%d\n",i,bt1[i],wt[i],tat[i]);
+	 	total_wt = total_wt + s.wt[i];
+      	total_tat = total_tat + tat[i];
+        printf("\n Details : %d\t%d\t%d\t%d\n",i,s.bt1[i],s.wt[i],tat[i]);
 	 }
-	 float kq=total_wt/n;
-	 float kw=total_tat/n;
+	 float kq=total_wt/s.n;
+	 float kw=total_tat/s.n;
 	 printf("\n\n Average Waiting time : %f",kq);
 	 printf("\n\n Average Turnaround time : %f",kw);
 	 printf("\n\n\n");
 }
-
-void prior(int bt[],int pr[], int n,int p[])
+void prior(struct element s)
 {
 	int i,j,temp,pos;
 	int tat[200],total=0,wt[200];
 	float avg_wt=0,avg_tat=0;
+	int n=s.n1;
 	    for(i=0;i<n;i++)
     {
         pos=i;
         for(j=i+1;j<n;j++)
         {
-            if(pr[j]<pr[pos])
+            if(s.pr[j]<s.pr[pos])
                 pos=j;
         }
  
-        temp=pr[i];
-        pr[i]=pr[pos];
-        pr[pos]=temp;
+        temp=s.pr[i];
+        s.pr[i]=s.pr[pos];
+        s.pr[pos]=temp;
  
-        temp=bt[i];
-        bt[i]=bt[pos];
-        bt[pos]=temp;
+        temp=s.bt2[i];
+        s.bt2[i]=s.bt2[pos];
+        s.bt2[pos]=temp;
  
-        temp=p[i];
-        p[i]=p[pos];
-        p[pos]=temp;
+        temp=s.p1[i];
+        s.p1[i]=s.p1[pos];
+        s.p1[pos]=temp;
     }
     for(i=0;i<n;i++)
     {
-        wt[i]=0;
+        s.wt[i]=0;
         for(j=0;j<i;j++)
-            wt[i]+=bt[j];
+            s.wt[i]+=s.bt2[j];
  
-        total+=wt[i];
+        total+=s.wt[i];
     }
     avg_wt=total/n;
 	printf("\n Priority Scheduling gives : ");
 	    for (i = 0 ; i <  n; i++)
-        printf("%d ",p[i]);
+        printf("%d ",s.p1[i]);
         for(i=0;i<n;i++)
     {
-        tat[i]=bt[i]+wt[i];     
+        tat[i]=s.bt1[i]+s.wt[i];     
         total+=tat[i];
-        printf("\n Details : %d\t%d\t%d\t%d\n",p[i],bt[i],wt[i],tat[i]);
+        printf("\n Details : %d\t%d\t%d\t%d\t%d\n",s.pr[i],s.p1[i],s.bt1[i],s.wt[i],tat[i]);
     }
     avg_tat=total/n;   
     printf("\n\n Average Waiting Time : %f",avg_wt);
     printf("\n\n Average Turnaround Time : %f",avg_tat);
     printf("\n\n\n");
 }
-void *fcfsar( int processes[], int n,int bt[], int wt[], int tat[])
-{
-    for (int  i = 0; i < n ; i++)
-        tat[i] = bt[i] + wt[i];
-}
-void firstcome(int bt2[],int wt[],int n)
+void firstcome(struct element s)
 {
 	int i,p[200],tat[200],total=0;
 	float avg_tat=0,avg_wt=0,total_wt=0,total_tat=0;
-    wt[0] = 0;
+	int n=s.n2;
+    s.wt[0] = 0;
     for (i = 1; i < n ; i++ )
-        wt[i] =bt2[i-1] + wt[i-1];
-    fcfsar(p,n,bt2,wt,tat);
+        s.wt[i] =s.bt3[i-1] + s.wt[i-1];
+       for (int  i = 0; i < n ; i++)
+        tat[i] = s.bt3[i] + s.wt[i];
     printf("\n First Come First Serve : ");
     for(i=0;i<n;i++)
     {
-    	p[i]=i;
+    	s.p2[i]=i;
     	printf("%d ",i);
 	}
 	
 	for(i=0;i<n;i++)
 	{
-        total_wt = total_wt + wt[i];
+        total_wt = total_wt + s.wt[i];
         total_tat = total_tat + tat[i];
-        printf("\n Details : %d\t%d\t%d\t%d\n",p[i],bt2[i],wt[i],tat[i]);
+        printf("\n Details : %d\t%d\t%d\t%d\n",s.p2[i],s.bt3[i],s.wt[i],tat[i]);
 	}
 	avg_tat=total_tat/n; 
 	avg_wt=total_wt/n;    
@@ -176,38 +177,42 @@ void firstcome(int bt2[],int wt[],int n)
 }
 int main()
 {
-	int i,j,n,n1,n2,p[200],bt1[200],bt2[200],bt3[200],tq=4,wt[200],wt1[200],pr[200];
+	int i,j;
+	//n,n1,n2;
+	//p[200],bt1[200],bt2[200],bt3[200],tq=4,wt[200],wt1[200],pr[200];
 	int com[200];
 	printf("\n>Enter the details of first queue(highest priority)");
 	printf("\n Enter the number of process in first queue : ");
-	scanf("%d",&n);
-	for(i=0;i<n;i++)
+	scanf("%d",&s.n);
+	for(i=0;i<s.n;i++)
 	{
-		p[i]=i;
+		s.p[i]=i;
 		printf("\n Enter the burst time of process %d : ",i);
-		scanf("%d",&bt1[i]);
+		scanf("%d",&s.bt1[i]);
 	}
 	printf("\n>Enter the details of second queue(medium priority)");
 	printf("\n Enter the number of process in second queue : ");
-	scanf("%d",&n1);
-	for(i=0;i<n1;i++)
+	scanf("%d",&s.n1);
+	for(i=0;i<s.n1;i++)
 	{
-		p[i]=i;
+		s.p1[i]=i;
 		printf("\n Enter the burst time of process %d : ",i);
-		scanf("%d",&bt2[i]);
+		scanf("%d",&s.bt2[i]);
 		printf("\n Enter the priority of process %d : ",i);
-		scanf("%d",&pr[i]);
+		scanf("%d",&s.pr[i]);
 	}
 	printf("\n>Enter the details of third queue(third priority)");
 	printf("\n Enter the number of process in third queue : ");
-	scanf("%d",&n2);
-	for(i=0;i<n2;i++)
+	scanf("%d",&s.n2);
+	for(i=0;i<s.n2;i++)
 	{
-		p[i]=i;
+		s.p2[i]=i;
 		printf("\n Enter the burst time of process %d : ",i);
-		scanf("%d",&bt3[i]);
+		scanf("%d",&s.bt3[i]);
 	}
-			round(bt1,tq,n,wt);
-			prior(bt2,pr,n1,p);
-			firstcome(bt3,wt,n2);
+			round(s);
+			prior(s);
+			firstcome(s);
+			//round(bt1,tq,n,wt);
+			//prior(bt2,pr,n1,p);
 }
