@@ -277,7 +277,7 @@ sem_init(&lo3,0,1);
 	printf("\n>Enter the details of third queue(third priority)");
 	printf("\n Enter the number of process in third queue : ");
 	scanf("%d",&s->n2);
-	for(i=0;i<s->n2;i++)
+	for(i=0;i<s->n2;i++)//t
 	{
 		s->p2[i]=i;
 		printf("\n Enter the burst time of process %d : ",i);
@@ -287,14 +287,14 @@ sem_init(&lo3,0,1);
 			sem_wait(&lo2);
 			pthread_create(&p1,NULL,round,s);
 			sem_post(&lo2);
-			sem_post(&lo3);
+			sem_post(&lo3);//a
 			sleep(1);
 			pthread_create(&p2,NULL,prior,s);
 			sleep(1);			
 			pthread_create(&p3,NULL,firstcome,s);
-			pthread_join(p1,NULL);
+			pthread_join(p1,NULL);//join
 			pthread_join(p2,NULL);
-			pthread_join(p3,NULL);
+			pthread_join(p3,NULL);//i
 printf("\n\n\n\n");
 printf("\n1 > Total Sum of All the Avg Waiting Time of Queues : %d",c1);
 printf("\n2 > Total Sum of All the Avg Turn Around Time of Queues : %d",c2);
@@ -307,7 +307,7 @@ printf("%d - ",r1[i]);
 printf("\n- > Avg Waiting Time -> %f",wait1);
 printf("\n- > Avg Turn Around Time -> %f",time1);
 printf("\n7 > Priority Scheduling Order Execution (Pids) -> ");
-for(i=0;i<u2;i++)
+for(i=0;i<u2;i++)//m
 printf("%d - ",r2[i]);
 printf("\n- > Avg Waiting Time -> %f",wait2);
 printf("\n- > Avg Turn Around Time -> %f",time2);
